@@ -5,5 +5,5 @@ elk:
     - "9200:9200"
     - "5044:5044"
   volumes:
-    # The folder "logstash-data" lies in the root of this repository
-    - /path/to/logstash-data/folder:/logstash-data
+    # The folder "logstash" lies in the root of this repository
+    - /path/to/logstash/folder:/logstash-data
