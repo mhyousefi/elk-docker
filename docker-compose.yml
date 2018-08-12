@@ -1,0 +1,9 @@
+elk:
+  image: sebp/elk
+  ports:
+    - "5601:5601"
+    - "9200:9200"
+    - "5044:5044"
+  volumes:
+    # The folder "logstash-data" lies in the root of this repository
+    - /path/to/logstash-data/folder:/logstash-data
