@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  filebeat:
+    container_name: filebeat
+    hostname: filebeat
+    image: docker.elastic.co/beats/filebeat:6.3.0
+    user: root
+    # command: ./filebeat -c /filebeat-stuff/filebeat.yml -E name=mybeat
+    volumes:
+      - filebeat_dir:/filebeat-stuff:ro
+
+volumes:
+  filebeat_dir:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/londonelk/elk-docker/filebeat/filebeat-data
