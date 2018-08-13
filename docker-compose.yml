@@ -1,4 +1,5 @@
 elk:
+  container_name: sebp-elk
   image: sebp/elk
   ports:
     - "5601:5601"
