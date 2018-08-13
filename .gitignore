@@ -28,3 +28,6 @@ man/man1
 man/man5
 man/man8
 vendor/pkg/
+
+
+./elk/volumed-folder/patterns/*

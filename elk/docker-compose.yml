@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  elk:
+    container_name: elk
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      # "volumed-folder" lies under ${PROJECT_DIR}/elk or could be anywhere else you wish
+      - /path/to/volumed-folder:/logstash
+    networks:
+      - elk_net
+
+networks:
+  elk_net:
+    driver: bridge

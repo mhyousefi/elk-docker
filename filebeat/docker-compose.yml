@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 
 services:
   filebeat:
@@ -8,12 +8,12 @@ services:
     user: root
     # command: ./filebeat -c /filebeat-stuff/filebeat.yml -E name=mybeat
     volumes:
-      - filebeat_dir:/filebeat-stuff:ro
+      # "volumed-folder" lies under ${PROJECT_DIR}/filebeat or could be anywhere else you wish
+      - /path/to/volumed-folder:/filebeat:ro
+    networks:
+      filebeat_net
 
-volumes:
-  filebeat_dir:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /home/londonelk/elk-docker/filebeat/filebeat-data
+networks:
+  filebeat_net:
+    external:
+      true
