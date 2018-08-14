@@ -1,0 +1,10 @@
+filebeat.inputs:
+- type: log
+  paths:
+    - /path/to/a/log/file
+
+output.logstash:
+  hosts: ["elk:5044"]
+
+setup.kibana:
+  host: "localhost:5601"

@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 
 services:
   filebeat:
@@ -6,14 +6,13 @@ services:
     hostname: filebeat
     image: docker.elastic.co/beats/filebeat:6.3.0
     user: root
-    # command: ./filebeat -c /filebeat-stuff/filebeat.yml -E name=mybeat
+    # command: ./filebeat -c /usr/share/filebeat-volume/config/filebeat.yml -E name=mybeat
     volumes:
       # "volumed-folder" lies under ${PROJECT_DIR}/filebeat or could be anywhere else you wish
-      - /path/to/volumed-folder:/filebeat:ro
+      - /path/to/volumed-folder:/usr/share/filebeat/filebeat-volume:ro
     networks:
-      filebeat_net
+      - filebeat_net
 
 networks:
   filebeat_net:
-    external:
-      true
+    external: true
