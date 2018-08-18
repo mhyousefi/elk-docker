@@ -31,8 +31,6 @@ except:
     print("Could not create the call folder")
     exit(1)
 
-exit(0)
-
 try:
     result = docker_compose_up(DOCKER_COMPOSE_ADDR)
 except:
