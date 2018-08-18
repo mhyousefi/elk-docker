@@ -3,7 +3,11 @@ from datetime import datetime as dt
 from datetime import timedelta
 
 def get_date_time():
-    return str(dt.now()).replace(' ', '-')
+    x = str(dt.now())
+    x = x.replace('.', '-')
+    x = x.replace(':', '-')
+    x = x.replace(' ', '-')
+    return x
 
 def exec_bash_command(command):
     p = Popen(command.split(), stdout=PIPE)

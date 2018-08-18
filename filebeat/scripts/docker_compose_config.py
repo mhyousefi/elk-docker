@@ -23,7 +23,7 @@ COMPOSE_LINES_AFTER_VOLUME_PATH = [
 def create_docker_compose(timestamp):
     docker_compose_file = open('../call-history/{0}/docker-compose.yml'.format(timestamp), 'w')
     docker_compose_file.write(''.join(COMPOSE_LINES_BEFORE_VOLUME_PATH))
-    volume_path_line = '      - ${PWD}/call-history/' + '{0}:/usr/share/filebeat/filebeat-volume\n'.format(timestamp)
+    volume_path_line = '      - ${PWD}:/usr/share/filebeat/filebeat-volume\n'
     docker_compose_file.write(volume_path_line)
     docker_compose_file.write(''.join(COMPOSE_LINES_AFTER_VOLUME_PATH))
     docker_compose_file.close()
