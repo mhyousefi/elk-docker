@@ -7,15 +7,19 @@ def get_date_time():
 
 def exec_bash_command(command):
     p = Popen(command.split(), stdout=PIPE)
-    stdout = p.communicate()[0]
-    exit_code = p.returncode
-    return (exit_code, stdout)
+    stdout, stderr = p.communicate()
+    exit_code = str(p.returncode)
+    return {
+        'exit_code': exit_code,
+        'stdout': stdout,
+        'stderr': stderr
+    }
 
 def create_call_dir(timestamp):
     command = "mkdir ../call-history/" + timestamp
     exec_bash_command(command)
 
-def move_txt_file(file_path, timestamp):
+def move_txt_file(timestamp, file_path):
     mkdir_command = 'mkdir ../call-history/{0}/data'.format(timestamp)
     exec_bash_command(mkdir_command)
 

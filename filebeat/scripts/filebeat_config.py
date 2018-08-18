@@ -30,7 +30,7 @@ def create_logstash_str(index_pattern):
 def create_kibana():
     return ''.join(KIBANA_LINES)
 
-def create_filebeat_config(index_pattern, timestamp):
+def create_filebeat_config(timestamp, index_pattern):
     conf_file = open('../call-history/{0}/filebeat.yml'.format(timestamp), 'w')
     conf_file.write(create_input_str())
     conf_file.write(create_logstash_str(index_pattern))
