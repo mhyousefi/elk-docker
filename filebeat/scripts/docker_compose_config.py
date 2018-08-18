@@ -1,3 +1,8 @@
+import os
+
+
+my_path = os.path.abspath(os.path.dirname(__file__))
+
 COMPOSE_LINES_BEFORE_VOLUME_PATH = [
     'version: "2"\n',
     '\n', 'services:\n',
@@ -23,7 +28,8 @@ COMPOSE_LINES_AFTER_VOLUME_PATH = [
 def create_docker_compose(timestamp):
     docker_compose_file = open('../call-history/{0}/docker-compose.yml'.format(timestamp), 'w')
     docker_compose_file.write(''.join(COMPOSE_LINES_BEFORE_VOLUME_PATH))
-    volume_path_line = '      - ${PWD}:/usr/share/filebeat/filebeat-volume\n'
+    host_path = os.path.join(my_path, "../call-history/{0}".format(timestamp))
+    volume_path_line = '      - {0}:/usr/share/filebeat/filebeat-volume\n'.format(host_path)
     docker_compose_file.write(volume_path_line)
     docker_compose_file.write(''.join(COMPOSE_LINES_AFTER_VOLUME_PATH))
     docker_compose_file.close()

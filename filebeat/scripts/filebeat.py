@@ -35,6 +35,7 @@ try:
     result = docker_compose_up(DOCKER_COMPOSE_ADDR)
 except:
     print("Could not create container and send log files")
+    exit(1)
 
 try:
     if (result['exit_code'] == "0"):
