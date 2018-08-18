@@ -1,11 +1,16 @@
 import sys
+import os
 from utils import get_date_time, exec_bash_command, create_call_dir, move_txt_file
 from docker_commands import docker_compose_up, remove_container, rename_container
 from docker_compose_config import create_docker_compose
 from filebeat_config import create_filebeat_config
 
+
+my_path = os.path.abspath(os.path.dirname(__file__))
+
 def create_call_folder(timestamp, data_file_path, index):
-    exec_bash_command("mkdir -p ../call-history")
+    call_history_path = os.path.join(my_path, '../call-history')
+    exec_bash_command("mkdir -p " + call_history_path)
     create_call_dir(timestamp)
     create_docker_compose(timestamp)
     create_filebeat_config(timestamp, index)
@@ -15,7 +20,7 @@ try:
     DATA_FILE_PATH = sys.argv[1]
     INDEX = sys.argv[2]
     TIMESTAMP = get_date_time()
-    DOCKER_COMPOSE_ADDR = "../call-history/{0}/docker-compose.yml".format(TIMESTAMP)
+    DOCKER_COMPOSE_ADDR = os.path.join(my_path, "../call-history/{0}/docker-compose.yml".format(TIMESTAMP))
 except:
     print("No arguments passed")
     exit(1)
@@ -25,6 +30,8 @@ try:
 except:
     print("Could not create the call folder")
     exit(1)
+
+exit(0)
 
 try:
     result = docker_compose_up(DOCKER_COMPOSE_ADDR)
