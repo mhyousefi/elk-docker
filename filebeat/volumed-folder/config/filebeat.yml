@@ -1,13 +1,14 @@
 filebeat.inputs:
 - type: log
   enabled: true
+  close_eof: true
   paths:
     - ${PWD}/filebeat-volume/data/*.txt
 
 output.logstash:
   enabled: true
   hosts: ["elk:5044"]
-  index: "your cusotm index"
+  index: "your-cusotm-index"
 
 setup.kibana:
   host: "localhost:5601"

@@ -6,9 +6,9 @@ services:
     hostname: filebeat
     image: docker.elastic.co/beats/filebeat:6.3.0
     user: root
+    command: bash -c 'cd /usr/share/filebeat && rm filebeat.yml && cp filebeat-volume/config/filebeat.yml . && ./filebeat --once -e -c filebeat.yml -d "*"'
     volumes:
       - ${PWD}/volumed-folder:/usr/share/filebeat/filebeat-volume
-      - ${PWD}/volumed-folder/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
     networks:
       - filebeat_net
 
