@@ -1,3 +1,6 @@
+from utils import get_relative_path
+
+
 INPUT_LINES = [
     'filebeat.inputs:\n',
     '- type: log\n',
@@ -31,7 +34,8 @@ def create_kibana():
     return ''.join(KIBANA_LINES)
 
 def create_filebeat_config(timestamp, index_pattern):
-    conf_file = open('../call-history/{0}/filebeat.yml'.format(timestamp), 'w')
+    file_dir = get_relative_path('../call-history/{0}/filebeat.yml'.format(timestamp))
+    conf_file = open(file_dir, 'w')
     conf_file.write(create_input_str())
     conf_file.write(create_logstash_str(index_pattern))
     conf_file.write(create_kibana())
