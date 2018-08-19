@@ -15,10 +15,13 @@ def get_date_time():
     x = x.replace(' ', '-')
     return x
 
-def exec_bash_command(command):
-    p = Popen(command.split(), stdout=PIPE)
+def exec_bash_command(command, show_stdout=False):
+    p = Popen(command.split(), stdout=PIPE, stderr=PIPE, universal_newlines=True)
     stdout, stderr = p.communicate()
     exit_code = str(p.returncode)
+    if show_stdout:
+        print("STDOUT LOGS ARE AS FOLLOWS ============> ")
+        print(stdout)
     return {
         'exit_code': exit_code,
         'stdout': stdout,

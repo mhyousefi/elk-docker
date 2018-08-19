@@ -1,6 +1,6 @@
 import sys
 from utils import get_date_time, exec_bash_command, create_call_dir, move_txt_file, get_relative_path
-from docker_commands import docker_compose_up, remove_container, rename_container
+from docker_commands import docker_compose_up, remove_container, rename_container, filebeat_was_successful
 from docker_compose_config import create_docker_compose
 from filebeat_config import create_filebeat_config
 
@@ -18,29 +18,33 @@ try:
     INDEX = sys.argv[2]
     TIMESTAMP = get_date_time()
     DOCKER_COMPOSE_ADDR = get_relative_path("../call-history/{0}/docker-compose.yml".format(TIMESTAMP))
-except:
+except Exception as e:
     print("No arguments passed")
+    print("ERROR MESSAGE => {0}".format(str(e)))
     exit(1)
 
 try:
     create_call_folder(TIMESTAMP, DATA_FILE_PATH, INDEX)
-except:
+except Exception as e:
     print("Could not create the call folder")
+    print("ERROR MESSAGE => {0}".format(str(e)))
     exit(1)
 
 try:
     result = docker_compose_up(DOCKER_COMPOSE_ADDR)
-except:
+except Exception as e:
     print("Could not create container and send log files")
+    print("ERROR MESSAGE => {0}".format(str(e)))
     exit(1)
 
 try:
-    if (result['exit_code'] == "0"):
+    if (filebeat_was_successful(result)):
         print("Logs successfully sent.")
         remove_container("filebeat")
     else:
         print("Something went wrong!")
         rename_container("filebeat", "filebeat_" + TIMESTAMP)
-except:
+except Exception as e:
     print("Could not remove/rename container")
+    print("ERROR MESSAGE => {0}".format(str(e)))
     exit(1)
