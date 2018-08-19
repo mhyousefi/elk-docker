@@ -39,11 +39,12 @@ except Exception as e:
 
 try:
     if (filebeat_was_successful(result)):
-        print("Logs successfully sent.")
+        print("Logs successfully sent! Deleting the container...")
         remove_container("filebeat")
     else:
-        print("Something went wrong!")
-        rename_container("filebeat", "filebeat_" + TIMESTAMP)
+        new_container_name = "filebeat_" + TIMESTAMP
+        print("Renaming the container to {0}...".format(new_container_name))
+        rename_container("filebeat", new_container_name)
 except Exception as e:
     print("Could not remove/rename container")
     print("ERROR MESSAGE => {0}".format(str(e)))

@@ -12,7 +12,7 @@ EXPECTED_SUCCESS_LOGS = [
 
 def docker_compose_up(docker_compose_addr):
     command = "docker-compose -f {0} up".format(docker_compose_addr)
-    return exec_bash_command(command)
+    return exec_bash_command(command, show_logs=True)
 
 def filebeat_was_successful(result):
     if (result["exit_code"] != "0"):
@@ -21,8 +21,7 @@ def filebeat_was_successful(result):
 
     for log in EXPECTED_SUCCESS_LOGS:
         if log not in result["stdout"]:
-            print (result["stdout"])
-            print("Stdout logs don't match with a sucessful case!")
+            print("Stdout logs don't match a sucessful case!")
             return False
 
     return True
