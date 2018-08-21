@@ -34,9 +34,14 @@ def create_kibana():
     return ''.join(KIBANA_LINES)
 
 def create_filebeat_config(timestamp, index_pattern):
-    file_dir = get_relative_path('../call-history/{0}/filebeat.yml'.format(timestamp))
-    conf_file = open(file_dir, 'w')
-    conf_file.write(create_input_str())
-    conf_file.write(create_logstash_str(index_pattern))
-    conf_file.write(create_kibana())
-    conf_file.close()
+    try:
+        file_dir = get_relative_path('../call-history/{0}/filebeat.yml'.format(timestamp))
+        conf_file = open(file_dir, 'w')
+        conf_file.write(create_input_str())
+        conf_file.write(create_logstash_str(index_pattern))
+        conf_file.write(create_kibana())
+        conf_file.close()
+    except Exception as e:
+        raise RuntimeError(str(e))
+
+    return True

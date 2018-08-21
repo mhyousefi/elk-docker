@@ -23,11 +23,16 @@ COMPOSE_LINES_AFTER_VOLUME_PATH = [
 ]
 
 def create_docker_compose(timestamp):
-    file_dir = get_relative_path('../call-history/{0}/docker-compose.yml'.format(timestamp))
-    docker_compose_file = open(file_dir, 'w')
-    docker_compose_file.write(''.join(COMPOSE_LINES_BEFORE_VOLUME_PATH))
-    host_path = get_relative_path("../call-history/{0}".format(timestamp))
-    volume_path_line = '      - {0}:/usr/share/filebeat/filebeat-volume\n'.format(host_path)
-    docker_compose_file.write(volume_path_line)
-    docker_compose_file.write(''.join(COMPOSE_LINES_AFTER_VOLUME_PATH))
-    docker_compose_file.close()
+    try:
+        file_dir = get_relative_path('../call-history/{0}/docker-compose.yml'.format(timestamp))
+        docker_compose_file = open(file_dir, 'w')
+        docker_compose_file.write(''.join(COMPOSE_LINES_BEFORE_VOLUME_PATH))
+        host_path = get_relative_path("../call-history/{0}".format(timestamp))
+        volume_path_line = '      - {0}:/usr/share/filebeat/filebeat-volume\n'.format(host_path)
+        docker_compose_file.write(volume_path_line)
+        docker_compose_file.write(''.join(COMPOSE_LINES_AFTER_VOLUME_PATH))
+        docker_compose_file.close()
+    except Exception as e:
+        raise RuntimeError(str(e))
+
+    return True

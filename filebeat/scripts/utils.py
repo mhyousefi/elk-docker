@@ -1,5 +1,5 @@
 import os
-from subprocess import Popen, PIPE, STDOUT
+import subprocess as sp
 from datetime import datetime as dt
 from datetime import timedelta
 
@@ -15,29 +15,22 @@ def get_date_time():
     x = x.replace(' ', '-')
     return x
 
-def exec_bash_command(command, show_logs=False):
-    p = Popen(command.split(), stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    stdout, stderr = p.communicate()
-    exit_code = str(p.returncode)
-    if show_logs:
-        print("STDOUT LOGS ARE AS FOLLOWS ============> ")
-        print(stdout)
-        print("STDERR LOGS ARE AS FOLLOWS ============> ")
-        print(stderr)
-    return {
-        'exit_code': exit_code,
-        'stdout': stdout,
-        'stderr': stderr
-    }
+def exec_bash_command(command):
+    return sp.run(command.split())
+
+def create_call_history_folder():
+    path = get_relative_path('../call-history')
+    command = "mkdir -p " + path
+    return exec_bash_command(command)
 
 def create_call_dir(timestamp):
     dir_path = get_relative_path('../call-history/{0}'.format(timestamp))
     command = "mkdir " + dir_path
-    exec_bash_command(command)
+    return exec_bash_command(command)
 
 def move_txt_file(timestamp, file_path):
     dir_path = get_relative_path('../call-history/{0}/data'.format(timestamp))
     mkdir_command = 'mkdir ' + dir_path
     move_command = "mv {0} {1}".format(file_path, dir_path)
     exec_bash_command(mkdir_command)
-    exec_bash_command(move_command)
+    return exec_bash_command(move_command)
