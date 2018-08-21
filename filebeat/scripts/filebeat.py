@@ -49,20 +49,20 @@ except Exception as e:
     exit(1)
 
 try:
-    result = docker_compose_up(DOCKER_COMPOSE_ADDR)
+    exit_code = docker_compose_up(DOCKER_COMPOSE_ADDR).returncode
 except Exception as e:
     print("Could not create container and send log files")
     print("ERROR MESSAGE => {0}".format(str(e)))
     exit(1)
 
 try:
-    if (filebeat_was_successful(result)):
+    if (exit_code == 0):
         print("Logs successfully sent! Deleting the container...")
         remove_container("filebeat")
     else:
         new_container_name = "filebeat_" + TIMESTAMP
         print("Renaming the container to {0}...".format(new_container_name))
-        rename_container("filebeat", new_container_name)
+        rename_container(old_name="filebeat", new_name=new_container_name)
 except Exception as e:
     print("Could not remove/rename container")
     print("ERROR MESSAGE => {0}".format(str(e)))

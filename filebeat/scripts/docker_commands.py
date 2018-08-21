@@ -14,20 +14,8 @@ def docker_compose_up(docker_compose_addr):
     command = "docker-compose -f {0} up".format(docker_compose_addr)
     return exec_bash_command(command)
 
-def filebeat_was_successful(result):
-    if (result["exit_code"] != "0"):
-        print ("Exit code was not 0!")
-        return False
-
-    for log in EXPECTED_SUCCESS_LOGS:
-        if log not in result["stdout"]:
-            print("Stdout logs don't match a sucessful case!")
-            return False
-
-    return True
-
 def remove_container(name):
-    return exec_bash_command("docker rm " + name)
+    return exec_bash_command("docker rm {0}".format(name))
 
 def rename_container(old_name, new_name):
     command = "docker rename {0} {1}".format(old_name, new_name)
